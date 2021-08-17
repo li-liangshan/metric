@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @author liliangshan
  * @date 2021/8/17
  */
-public class AbstractRestClient implements RestClient {
+public abstract class AbstractRestClient implements RestClient {
 
     private final OkHttpClient okHttpClient;
     private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
@@ -34,13 +34,18 @@ public class AbstractRestClient implements RestClient {
 
     @Override
     public <T> void getAsync(String url, Class<T> tClass, ResponseListener<T> response) {
-        RequestObject object = new RequestObject(url);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .build();
         this.getAsync(object, tClass, response);
     }
 
     @Override
     public <T> void getAsync(String url, Map<String, String> queryMap, Class<T> tClass, ResponseListener<T> response) {
-        RequestObject object = new RequestObject(url, queryMap);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .queries(queryMap)
+                .build();
         this.getAsync(object, tClass, response);
     }
 
@@ -53,13 +58,18 @@ public class AbstractRestClient implements RestClient {
 
     @Override
     public <I, T> void postAsync(String url, I body, Class<T> tClass, ResponseListener<T> response) {
-        RequestObject object = new RequestObject(url);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .build();
         this.postAsync(object, body, tClass, response);
     }
 
     @Override
     public <I, T> void postAsync(String url, I body, Map<String, String> queryMap, Class<T> tClass, ResponseListener<T> response) {
-        RequestObject object = new RequestObject(url, queryMap);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .queries(queryMap)
+                .build();
         this.postAsync(object, body, tClass, response);
     }
 
@@ -72,13 +82,18 @@ public class AbstractRestClient implements RestClient {
 
     @Override
     public <T> T getSync(String url, Class<T> tClass) throws Exception {
-        RequestObject object = new RequestObject(url);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .build();
         return this.getSync(object, tClass);
     }
 
     @Override
     public <T> T getSync(String url, Map<String, String> queryMap, Class<T> tClass) throws Exception {
-        RequestObject object = new RequestObject(url, queryMap);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .queries(queryMap)
+                .build();
         return this.getSync(object, tClass);
     }
 
@@ -91,13 +106,18 @@ public class AbstractRestClient implements RestClient {
 
     @Override
     public <I, T> T postSync(String url, I body, Class<T> tClass) throws Exception {
-        RequestObject object = new RequestObject(url);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .build();
         return this.postSync(object, body, tClass);
     }
 
     @Override
     public <I, T> T postSync(String url, I body, Map<String, String> queryMap, Class<T> tClass) throws Exception {
-        RequestObject object = new RequestObject(url, queryMap);
+        RequestObject object = new RequestObject.Builder()
+                .baseUrl(url)
+                .queries(queryMap)
+                .build();
         return this.postSync(object, body, tClass);
     }
 

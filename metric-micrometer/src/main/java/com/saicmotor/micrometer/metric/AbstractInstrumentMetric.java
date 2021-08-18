@@ -1,10 +1,9 @@
 package com.saicmotor.micrometer.metric;
 
 import com.saicmotor.metric.AbstractMetric;
-import com.saicmotor.metric.micrometer.Instrument;
+import com.saicmotor.micrometer.Instrument;
 import io.micrometer.core.instrument.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;

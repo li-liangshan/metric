@@ -1,6 +1,7 @@
-package com.saicmotor.prometheus;
+package com.saicmotor.prometheus.client;
 
 import com.saicmotor.metric.client.Client;
+import com.saicmotor.prometheus.PromContainer;
 import com.saicmotor.prometheus.collector.PromCollector;
 
 import java.util.List;

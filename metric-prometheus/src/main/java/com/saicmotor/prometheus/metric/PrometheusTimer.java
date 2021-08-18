@@ -1,7 +1,7 @@
 package com.saicmotor.prometheus.metric;
 
 import com.saicmotor.metric.api.MtTimer;
-import com.saicmotor.metric.prometheus.PrometheusObject;
+import com.saicmotor.prometheus.PrometheusObject;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Summary;
 

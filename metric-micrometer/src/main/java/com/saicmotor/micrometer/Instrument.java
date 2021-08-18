@@ -1,4 +1,4 @@
-package com.saicmotor.metric.micrometer;
+package com.saicmotor.micrometer;
 
 import java.util.Map;
 import java.util.concurrent.Callable;

@@ -1,6 +1,6 @@
 package com.saicmotor.console.metric;
 
-import com.saicmotor.metric.AbstractMetric;
+import com.saicmotor.console.ConsoleMetricType;
 import com.saicmotor.metric.api.MtGauge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author liliangshan
  * @date 2021/8/11
  */
-public class ConsoleGauge extends AbstractMetric implements MtGauge {
+public class ConsoleGauge extends ConsoleMetric implements MtGauge {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsoleGauge.class);
 
@@ -47,6 +47,16 @@ public class ConsoleGauge extends AbstractMetric implements MtGauge {
             logger.error(e.getMessage(), e);
             return 0;
         }
+    }
+
+    @Override
+    protected ConsoleMetricType getConsoleMetricType() {
+        return ConsoleMetricType.GAUGE;
+    }
+
+    @Override
+    protected double getValue() {
+        return this.value();
     }
 
 }

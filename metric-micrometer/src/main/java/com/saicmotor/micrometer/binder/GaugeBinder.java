@@ -1,8 +1,8 @@
 package com.saicmotor.micrometer.binder;
 
 import com.saicmotor.metric.api.MtGauge;
-import com.saicmotor.metric.micrometer.AbstractInstrumentBinder;
-import com.saicmotor.metric.micrometer.Instrument;
+import com.saicmotor.micrometer.AbstractInstrumentBinder;
+import com.saicmotor.micrometer.Instrument;
 import com.saicmotor.micrometer.metric.InstrumentGauge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.saicmotor.metric.micrometer;
+package com.saicmotor.micrometer;
 
 import com.saicmotor.metric.api.Metric;
 import io.micrometer.core.instrument.MeterRegistry;

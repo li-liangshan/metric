@@ -1,7 +1,7 @@
 package com.saicmotor.prometheus.metric;
 
 import com.saicmotor.metric.AbstractMetric;
-import com.saicmotor.metric.prometheus.PrometheusObject;
+import com.saicmotor.prometheus.PrometheusObject;
 import io.prometheus.client.CollectorRegistry;
 
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.saicmotor.prometheus;
 
-import io.prometheus.client.Collector;
-
 import java.util.List;
 
 /**
@@ -28,14 +26,14 @@ public class PromSample {
     }
 
     public PromSample(String name, List<String> labelNames, List<String> labelValues, double value) {
-        this(name, labelNames, labelValues, value, (Long)null);
+        this(name, labelNames, labelValues, value, null);
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof Collector.MetricFamilySamples.Sample)) {
+        if (!(obj instanceof PromSample)) {
             return false;
         } else {
-            Collector.MetricFamilySamples.Sample other = (Collector.MetricFamilySamples.Sample)obj;
+            PromSample other = (PromSample) obj;
             return other.name.equals(this.name) && other.labelNames.equals(this.labelNames) && other.labelValues.equals(this.labelValues) && other.value == this.value && (this.timestampMs == null && other.timestampMs == null || other.timestampMs != null && other.timestampMs.equals(this.timestampMs));
         }
     }
@@ -46,7 +44,7 @@ public class PromSample {
         hash = 37 * hash + this.labelNames.hashCode();
         hash = 37 * hash + this.labelValues.hashCode();
         long d = Double.doubleToLongBits(this.value);
-        hash = 37 * hash + (int)(d ^ d >>> 32);
+        hash = 37 * hash + (int) (d ^ d >>> 32);
         if (this.timestampMs != null) {
             hash = 37 * hash + this.timestampMs.hashCode();
         }

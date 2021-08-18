@@ -1,7 +1,8 @@
 package com.saicmotor.web.servlet;
 
+import com.saicmotor.metric.servlet.AbstractHttpServlet;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -12,10 +13,10 @@ import java.io.IOException;
  * @author liliangshan
  * @date 2021/8/14
  */
-public class HomeServlet extends HttpServlet {
+public class HomeServlet extends AbstractHttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         resp.getWriter().print("<html>\n"
                 + "<head><title>Metric Web</title></head>\n"
@@ -25,4 +26,10 @@ public class HomeServlet extends HttpServlet {
                 + "</body>\n"
                 + "</html>");
     }
+
+    @Override
+    public String getPathSpec() {
+        return null;
+    }
+
 }

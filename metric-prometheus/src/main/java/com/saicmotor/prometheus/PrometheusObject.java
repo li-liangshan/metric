@@ -1,4 +1,4 @@
-package com.saicmotor.metric.prometheus;
+package com.saicmotor.prometheus;
 
 import com.google.common.collect.Maps;
 

@@ -1,13 +1,15 @@
 package com.saicmotor.web;
 
+import com.saicmotor.metric.servlet.AbstractMetricServlet;
 import com.saicmotor.metric.servlet.MtServlet;
 import com.saicmotor.web.servlet.HealthServlet;
 import com.saicmotor.web.servlet.HomeServlet;
-import io.prometheus.client.exporter.MetricsServlet;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,16 +22,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class HttpServer implements WebServer {
 
+    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
     private final Server server;
     private final ServletContextHandler contextHandler;
+    private final String metricUrl;
     private final AtomicBoolean running = new AtomicBoolean(false);
+    private final int port;
 
 
-    public HttpServer(int port) {
+    public HttpServer(int port, AbstractMetricServlet metricServlet) {
+        this.port = port;
         server = new Server(port);
         contextHandler = this.createContextHandler();
         server.setHandler(contextHandler);
+        metricUrl = metricServlet.getMetricPathSpec();
         this.initializedServlet();
+        contextHandler.addServlet(new ServletHolder(metricServlet), metricUrl);
     }
 
     private ServletContextHandler createContextHandler() {
@@ -39,7 +47,6 @@ public class HttpServer implements WebServer {
     }
 
     private void initializedServlet() {
-        contextHandler.addServlet(new ServletHolder(new MetricsServlet()), "/metrics");
         contextHandler.addServlet(new ServletHolder(new HealthServlet()), "/health");
         contextHandler.addServlet(new ServletHolder(new HomeServlet()), "/");
     }
@@ -52,6 +59,7 @@ public class HttpServer implements WebServer {
         if (servlet == null || StringUtils.isBlank(servlet.getPathSpec())) {
             throw new MtServletException("servlet path spec must not be null.");
         }
+        logger.info("add servlet path:{}", servlet.getPathSpec());
         contextHandler.addServlet(new ServletHolder(servlet), servlet.getPathSpec());
     }
 
@@ -76,9 +84,12 @@ public class HttpServer implements WebServer {
         try {
             if (running.compareAndSet(false, true)) {
                 if (server.isStarting() || server.isStarted()) {
+                    logger.info("http server have been starting or started.");
                     return;
                 }
+                logger.info("http server is starting.");
                 server.start();
+                logger.info("http server is running in port:{}, metrics path:{}", this.port, this.metricUrl);
                 server.join();
             }
         } catch (Exception e) {
@@ -90,9 +101,11 @@ public class HttpServer implements WebServer {
     public void close() {
         if (running.compareAndSet(true, false)) {
             if (server.isStopped() || server.isStopping()) {
+                logger.info("http server have been stopping or stopped.");
                 return;
             }
             try {
+                logger.info("http server is stopping.");
                 server.stop();
             } catch (Exception e) {
                 running.set(server.isRunning());

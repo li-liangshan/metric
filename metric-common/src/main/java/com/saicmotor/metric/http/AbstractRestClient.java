@@ -147,7 +147,7 @@ public abstract class AbstractRestClient implements RestClient {
     private <T> void checkRequestObject(RequestObject object, Class<T> tClass) {
         Preconditions.checkArgument(object != null, "request object is null");
         Preconditions.checkArgument(tClass != null, "response object class is null");
-        Preconditions.checkArgument(StringUtils.isBlank(object.getBaseUrl()), "base url is null");
+        Preconditions.checkArgument(!StringUtils.isBlank(object.getBaseUrl()), "base url is null");
         object.setBaseUrl(StringUtils.trim(object.getBaseUrl()));
         if (object.getPathSegments() == null) {
             object.setPathSegments(Lists.newArrayList());

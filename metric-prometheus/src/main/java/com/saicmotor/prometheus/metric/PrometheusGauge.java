@@ -1,7 +1,7 @@
 package com.saicmotor.prometheus.metric;
 
 import com.saicmotor.metric.api.MtGauge;
-import com.saicmotor.metric.prometheus.PrometheusObject;
+import com.saicmotor.prometheus.PrometheusObject;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class PrometheusGauge extends AbstractPrometheusMetric implements MtGauge
     private static final Logger logger = LoggerFactory.getLogger(PrometheusGauge.class);
 
     private final Gauge gauge;
-    private Callable<Double> callable;
+    private final Callable<Double> callable;
     private final ToDoubleFunction<Callable<Double>> function = callable -> {
         if (callable == null) {
             return 0L;

@@ -1,6 +1,6 @@
 package com.saicmotor.console.metric;
 
-import com.saicmotor.metric.AbstractMetric;
+import com.saicmotor.console.ConsoleMetricType;
 import com.saicmotor.metric.api.MtCounter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author liliangshan
  * @date 2021/8/11
  */
-public class ConsoleCounter extends AbstractMetric implements MtCounter {
+public class ConsoleCounter extends ConsoleMetric implements MtCounter {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsoleCounter.class);
 
@@ -38,6 +38,16 @@ public class ConsoleCounter extends AbstractMetric implements MtCounter {
 
     @Override
     public long count() {
+        return count.get();
+    }
+
+    @Override
+    protected ConsoleMetricType getConsoleMetricType() {
+        return ConsoleMetricType.COUNTER;
+    }
+
+    @Override
+    protected double getValue() {
         return count.get();
     }
 

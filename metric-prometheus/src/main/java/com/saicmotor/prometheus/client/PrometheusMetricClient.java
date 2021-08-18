@@ -1,11 +1,13 @@
-package com.saicmotor.prometheus;
+package com.saicmotor.prometheus.client;
 
 import com.saicmotor.metric.MetricId;
 import com.saicmotor.metric.api.MtCounter;
 import com.saicmotor.metric.api.MtGauge;
 import com.saicmotor.metric.api.MtTimer;
 import com.saicmotor.metric.client.AbstractClient;
-import com.saicmotor.metric.prometheus.PrometheusObject;
+import com.saicmotor.prometheus.PromContainer;
+import com.saicmotor.prometheus.PromInstrument;
+import com.saicmotor.prometheus.PrometheusObject;
 import com.saicmotor.prometheus.collector.PromCollector;
 import com.saicmotor.prometheus.collector.PromInstrumentCollector;
 import com.saicmotor.prometheus.metric.PrometheusCounter;
@@ -31,6 +33,10 @@ public class PrometheusMetricClient extends AbstractClient implements Prometheus
 
     public PrometheusMetricClient(CollectorRegistry registry) {
         this.registry = registry;
+    }
+
+    public CollectorRegistry getRegistry() {
+        return registry;
     }
 
     @Override

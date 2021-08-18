@@ -1,7 +1,7 @@
 package com.saicmotor.console.metric;
 
 import com.google.common.collect.Maps;
-import com.saicmotor.metric.AbstractMetric;
+import com.saicmotor.console.ConsoleMetricType;
 import com.saicmotor.metric.api.MtTimer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author liliangshan
  * @date 2021/8/11
  */
-public class ConsoleTimer extends AbstractMetric implements MtTimer {
+public class ConsoleTimer extends ConsoleMetric implements MtTimer {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsoleTimer.class);
 
@@ -39,6 +39,16 @@ public class ConsoleTimer extends AbstractMetric implements MtTimer {
     @Override
     public void record(long time, TimeUnit unit) {
         this.record(TimeUnit.MILLISECONDS.convert(time, unit));
+    }
+
+    @Override
+    protected ConsoleMetricType getConsoleMetricType() {
+        return ConsoleMetricType.TIMER;
+    }
+
+    @Override
+    protected double getValue() {
+        return store.keySet().size();
     }
 
 }

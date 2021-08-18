@@ -1,38 +1,38 @@
-package com.saicmotor.prometheus;
-
-import io.prometheus.client.Collector;
+package com.saicmotor.console;
 
 import java.util.List;
 
 /**
- * PromContainer .
+ * ConsoleContainer .
  *
  * @author liliangshan
- * @date 2021/8/13
+ * @date 2021/8/18
  */
-public class PromContainer {
-    private final String name;
-    private final String description;
-    public final String unit;
-    public final Collector.Type type = Collector.Type.UNKNOWN;
-    public final List<PromSample> samples;
+public class ConsoleContainer {
 
-    public PromContainer(String name, String unit, String description, List<PromSample> samples) {
+    public final String name;
+    public final String unit;
+    public final ConsoleMetricType type;
+    public final String description;
+    public final List<ConsoleSample> samples;
+
+    public ConsoleContainer(String name, String unit, ConsoleMetricType type, String description, List<ConsoleSample> samples) {
         this.name = name;
         this.unit = unit;
+        this.type = type;
         this.description = description;
         this.samples = samples;
     }
 
-    public PromContainer(String name, String description, List<PromSample> samples) {
-        this(name, "", description, samples);
+    public ConsoleContainer(String name, ConsoleMetricType type, String description, List<ConsoleSample> samples) {
+        this(name, "", type, description, samples);
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof PromContainer)) {
+        if (!(obj instanceof ConsoleContainer)) {
             return false;
         } else {
-            PromContainer other = (PromContainer) obj;
+            ConsoleContainer other = (ConsoleContainer) obj;
             return other.name.equals(this.name)
                     && other.unit.equals(this.unit)
                     && other.type.equals(this.type)
@@ -67,11 +67,12 @@ public class PromContainer {
         return unit;
     }
 
-    public Collector.Type getType() {
+    public ConsoleMetricType getType() {
         return type;
     }
 
-    public List<PromSample> getSamples() {
+    public List<ConsoleSample> getSamples() {
         return samples;
     }
+
 }

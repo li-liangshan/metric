@@ -1,7 +1,7 @@
 package com.saicmotor.micrometer.metric;
 
 import com.saicmotor.metric.api.MtCounter;
-import com.saicmotor.metric.micrometer.Instrument;
+import com.saicmotor.micrometer.Instrument;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Measurement;
 import io.micrometer.core.instrument.Meter;

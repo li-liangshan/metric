@@ -18,6 +18,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.saicmotor</groupId>
             <artifactId>metric-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>

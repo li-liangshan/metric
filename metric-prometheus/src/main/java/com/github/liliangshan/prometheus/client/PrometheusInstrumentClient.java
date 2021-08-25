@@ -16,7 +16,6 @@ import java.util.concurrent.Callable;
  */
 public interface PrometheusInstrumentClient extends Client {
 
-    PromCollector collector(String name, String description, Map<String, String> tags,
-                            Callable<List<PromContainer>> callable);
+    PromCollector promCollector(String name, String description, Map<String, String> tags, Callable<List<PromContainer>> callable);
 
 }

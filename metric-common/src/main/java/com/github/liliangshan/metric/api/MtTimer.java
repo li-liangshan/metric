@@ -14,4 +14,6 @@ public interface MtTimer extends Metric {
 
     void record(long time, TimeUnit unit);
 
+    void record(Runnable runnable);
+
 }

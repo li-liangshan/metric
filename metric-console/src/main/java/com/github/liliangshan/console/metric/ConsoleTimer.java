@@ -51,4 +51,9 @@ public class ConsoleTimer extends ConsoleMetric implements MtTimer {
         return store.keySet().size();
     }
 
+    @Override
+    public void record(Runnable runnable) {
+
+    }
+
 }

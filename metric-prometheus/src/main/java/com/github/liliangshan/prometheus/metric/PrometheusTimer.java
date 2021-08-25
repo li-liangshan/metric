@@ -40,6 +40,16 @@ public class PrometheusTimer extends AbstractPrometheusMetric implements MtTimer
     }
 
     @Override
+    public void record(Runnable runnable) {
+        Summary.Timer timer = summary.labels(this.getLabelValues()).startTimer();
+        try {
+            runnable.run();
+        } finally {
+            timer.observeDuration();
+        }
+    }
+
+    @Override
     public void remove(String... labelValues) {
         summary.remove(labelValues);
     }

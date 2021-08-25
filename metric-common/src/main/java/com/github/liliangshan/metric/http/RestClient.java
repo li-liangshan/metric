@@ -9,4 +9,6 @@ package com.github.liliangshan.metric.http;
  */
 public interface RestClient extends RestSyncClient, RestAsyncClient {
 
+    RestClientConfig getConfig();
+
 }

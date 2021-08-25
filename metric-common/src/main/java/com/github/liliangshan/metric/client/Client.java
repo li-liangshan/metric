@@ -1,9 +1,11 @@
 package com.github.liliangshan.metric.client;
 
+import com.github.liliangshan.metric.api.MtCollector;
 import com.github.liliangshan.metric.api.MtCounter;
 import com.github.liliangshan.metric.api.MtGauge;
 import com.github.liliangshan.metric.api.MtTimer;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -21,6 +23,10 @@ public interface Client {
 
     MtTimer timer(String metricsName, String description, Map<String, String> tags);
 
+    MtCollector collector(String name, String description, Map<String, String> tags, Callable<?> callable);
+
     void destroy();
+
+    void updateMetricStat();
 
 }

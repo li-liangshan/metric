@@ -52,4 +52,8 @@ public class InstrumentTimer extends AbstractInstrumentMetric implements MtTimer
         timer.close();
     }
 
+    @Override
+    public void record(Runnable runnable) {
+
+    }
 }

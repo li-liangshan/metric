@@ -3,6 +3,7 @@ package com.github.liliangshan.metric;
 import com.google.common.base.Objects;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * MetricId .
@@ -13,14 +14,14 @@ import java.util.Map;
 public class MetricId {
 
     private String name;
-    private Map<String, String> tags;
+    private Set<String> tagKeys;
 
     public MetricId() {
     }
 
-    public MetricId(String name, Map<String, String> tags) {
+    public MetricId(String name, Set<String> tagKeys) {
         this.name = name;
-        this.tags = tags;
+        this.tagKeys = tagKeys;
     }
 
     public String getName() {
@@ -31,12 +32,12 @@ public class MetricId {
         this.name = name;
     }
 
-    public Map<String, String> getTags() {
-        return tags;
+    public Set<String> getTagKeys() {
+        return tagKeys;
     }
 
-    public void setTags(Map<String, String> tags) {
-        this.tags = tags;
+    public void setTagKeys(Set<String> tagKeys) {
+        this.tagKeys = tagKeys;
     }
 
     @Override
@@ -44,11 +45,11 @@ public class MetricId {
         if (this == o) return true;
         if (!(o instanceof MetricId)) return false;
         MetricId metricID = (MetricId) o;
-        return Objects.equal(name, metricID.name) && Objects.equal(tags.keySet(), metricID.tags.keySet());
+        return Objects.equal(name, metricID.name) && Objects.equal(tagKeys, metricID.tagKeys);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name, tags.keySet());
+        return Objects.hashCode(name, tagKeys);
     }
 }

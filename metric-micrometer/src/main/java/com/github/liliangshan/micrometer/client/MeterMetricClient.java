@@ -1,5 +1,6 @@
 package com.github.liliangshan.micrometer.client;
 
+import com.github.liliangshan.metric.api.MtCollector;
 import com.github.liliangshan.micrometer.binder.CounterBinder;
 import com.google.common.base.Preconditions;
 import com.github.liliangshan.metric.api.MtCounter;
@@ -69,6 +70,11 @@ public class MeterMetricClient extends AbstractClient {
     protected MtTimer getTimer(String name, String description, Map<String, String> tags) {
         Preconditions.checkArgument(timerBinder != null, "timerBinder is null");
         return timerBinder.register(new Instrument(name, description, tags));
+    }
+
+    @Override
+    protected MtCollector getMtCollector(String name, String description, Map<String, String> tags, Callable<?> callable) {
+        return null;
     }
 
 }

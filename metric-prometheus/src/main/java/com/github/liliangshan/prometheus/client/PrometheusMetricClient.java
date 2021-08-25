@@ -1,6 +1,6 @@
 package com.github.liliangshan.prometheus.client;
 
-import com.github.liliangshan.metric.MetricId;
+import com.github.liliangshan.metric.api.MtCollector;
 import com.github.liliangshan.metric.api.MtCounter;
 import com.github.liliangshan.metric.api.MtGauge;
 import com.github.liliangshan.metric.api.MtTimer;
@@ -18,7 +18,6 @@ import io.prometheus.client.CollectorRegistry;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * PrometheusMetricClient .
@@ -29,7 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PrometheusMetricClient extends AbstractClient implements PrometheusInstrumentClient {
 
     private final CollectorRegistry registry;
-    private final Map<MetricId, PromCollector> collectors = new ConcurrentHashMap<>();
 
     public PrometheusMetricClient(CollectorRegistry registry) {
         this.registry = registry;
@@ -56,16 +54,14 @@ public class PrometheusMetricClient extends AbstractClient implements Prometheus
     }
 
     @Override
-    public PromCollector collector(String name, String description, Map<String, String> tags,
-                                   Callable<List<PromContainer>> callable) {
-        MetricId key = this.getKey(name, tags);
-        PromCollector collector = collectors.get(key);
-        if (collector == null) {
-            collector = collectors.computeIfAbsent(key, k ->
-                    new PromInstrumentCollector(registry, new PromInstrument(name, description, tags, callable))
-            );
-        }
-        return collector;
+    protected MtCollector getMtCollector(String name, String description, Map<String, String> tags, Callable<?> callable) {
+        return new PromInstrumentCollector(registry, new PromInstrument(name, description, tags, (Callable<List<PromContainer>>) callable));
+    }
+
+    @Override
+    public PromCollector promCollector(String name, String description, Map<String, String> tags,
+                                       Callable<List<PromContainer>> callable) {
+        return (PromCollector) this.collector(name, description, tags, callable);
     }
 
 }

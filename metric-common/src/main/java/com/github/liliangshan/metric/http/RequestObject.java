@@ -19,7 +19,7 @@ public class RequestObject {
     private Map<String, String> queries;
     private HttpHeaders headers;
 
-    private RequestObject(RequestObject.Builder builder) {
+    private RequestObject(Builder builder) {
         this.baseUrl = builder.baseUrl;
         this.pathSegments = builder.pathSegments;
         this.queries = builder.queries;

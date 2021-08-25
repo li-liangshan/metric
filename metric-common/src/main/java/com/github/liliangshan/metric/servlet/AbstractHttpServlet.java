@@ -1,5 +1,8 @@
 package com.github.liliangshan.metric.servlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServlet;
 
 /**
@@ -10,8 +13,13 @@ import javax.servlet.http.HttpServlet;
  */
 public abstract class AbstractHttpServlet extends HttpServlet implements MtServlet {
 
-    protected AbstractHttpServlet() {
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    protected AbstractHttpServlet() {
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
 }

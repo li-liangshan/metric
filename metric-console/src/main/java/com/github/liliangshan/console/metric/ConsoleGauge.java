@@ -30,7 +30,7 @@ public class ConsoleGauge extends ConsoleMetric implements MtGauge {
         executor = new ScheduledThreadPoolExecutor(1);
         executor.scheduleAtFixedRate(() -> {
             logger.info("metric name:{} , description: {}, tags: {}, gauge: {}",
-                    name, description, tags.toString(), value());
+                    name, description, tags.toString(), updateAndGetValue());
         }, 0, period, TimeUnit.MILLISECONDS);
     }
 
@@ -40,7 +40,7 @@ public class ConsoleGauge extends ConsoleMetric implements MtGauge {
     }
 
     @Override
-    public double value() {
+    public double updateAndGetValue() {
         try {
             return getCallable().call();
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class ConsoleGauge extends ConsoleMetric implements MtGauge {
 
     @Override
     protected double getValue() {
-        return this.value();
+        return this.updateAndGetValue();
     }
 
 }

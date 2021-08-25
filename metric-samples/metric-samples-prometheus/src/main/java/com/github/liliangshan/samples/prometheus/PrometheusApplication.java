@@ -1,5 +1,9 @@
 package com.github.liliangshan.samples.prometheus;
 
+import com.github.liliangshan.metric.service.Service;
+import com.github.liliangshan.samples.prometheus.service.CounterService;
+import com.github.liliangshan.samples.prometheus.service.GaugeService;
+import com.github.liliangshan.samples.prometheus.servlet.PingServlet;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -22,27 +26,19 @@ import java.util.Random;
 public class PrometheusApplication {
 
     public static void main(String[] args) {
-        final Random random = new Random();
+
         PrometheusMetricClient client = new PrometheusMetricClient(CollectorRegistry.defaultRegistry);
-        MtCounter counter = client.counter("request_name", "this is request name",
-                Maps.asMap(Sets.newHashSet("tag1", "tag2"), new Function<String, String>() {
-                    @Override
-                    public @Nullable String apply(@Nullable String s) {
-                        return s + random.nextInt();
-                    }
-                }));
-        counter.increment();
+        PrometheusMetricServlet prometheusMetricServlet = new PrometheusMetricServlet(client);
 
-        MtGauge gauge = client.gauge("request_mem", "this is request mem", Maps.asMap(Sets.newHashSet("tag1", "tag2"), new Function<String, String>() {
-            @Override
-            public @Nullable String apply(@Nullable String s) {
-                return s + "_value";
-            }
-        }), random::nextDouble);
+        // add service
+        Service counterService = new CounterService();
+        prometheusMetricServlet.addService(counterService);
+        Service gaugeService = new GaugeService();
+        prometheusMetricServlet.addService(gaugeService);
 
-        gauge.value();
-
-        HttpServer server = new HttpServer(3201, new PrometheusMetricServlet(client));
+        // start server
+        HttpServer server = new HttpServer(3201, prometheusMetricServlet);
+        server.addServlet(new PingServlet(client));
         server.run();
     }
 

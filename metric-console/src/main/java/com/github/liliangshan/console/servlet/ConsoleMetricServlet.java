@@ -29,6 +29,16 @@ public class ConsoleMetricServlet extends AbstractMetricServlet {
         return "";
     }
 
+    @Override
+    protected void updateMetricsBefore() {
+
+    }
+
+    @Override
+    protected void updateMetricsAfter() {
+
+    }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setStatus(200);
         BufferedWriter writer = new BufferedWriter(resp.getWriter());

@@ -37,4 +37,21 @@ public abstract class AbstractMetricServlet extends AbstractHttpServlet implemen
         }
         return prefix + getPathSpec();
     }
+
+    final protected void updateMetrics() {
+        try {
+            logger.info("update metrics stat...");
+            this.updateMetricsBefore();
+            client.updateMetricStat();
+            this.updateMetricsAfter();
+            logger.info("metrics stat updated [ok]");
+        } catch (Exception e) {
+            logger.error("metrics stat updated failed", e);
+        }
+    }
+
+    protected abstract void updateMetricsBefore();
+
+    protected abstract void updateMetricsAfter();
+
 }

@@ -6,6 +6,7 @@ import io.prometheus.client.Collector;
 import io.prometheus.client.CollectorRegistry;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 
@@ -37,6 +38,16 @@ public abstract class AbstractPromCollector extends AbstractMetric implements Pr
     }
 
     protected abstract List<PromContainer> collectInternal();
+
+    @Override
+    public List<PromContainer> getValues() {
+        return this.collectInternal();
+    }
+
+    @Override
+    public Callable<?> getCallable() {
+        return this::collectInternal;
+    }
 
     @Override
     final public void collect() {

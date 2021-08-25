@@ -14,15 +14,12 @@ public class MetricRestClient extends AbstractRestClient {
     private static final Logger logger = LoggerFactory.getLogger(MetricRestClient.class);
 
 
-    private MetricRestClient() {
-        super();
+    public MetricRestClient() {
+        this(RestClientConfig.DefaultConfig);
     }
 
-    public static MetricRestClient getInstance() {
-        return Holder.INSTANCE;
+    public MetricRestClient(RestClientConfig clientConfig) {
+        super(clientConfig);
     }
 
-    private static class Holder {
-        private static final MetricRestClient INSTANCE = new MetricRestClient();
-    }
 }

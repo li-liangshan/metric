@@ -12,6 +12,6 @@ public interface MtGauge extends Metric {
 
     Callable<Double> getCallable();
 
-    double value();
+    double updateAndGetValue();
 
 }

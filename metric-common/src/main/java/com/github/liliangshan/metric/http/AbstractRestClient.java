@@ -4,12 +4,18 @@ import com.github.liliangshan.metric.json.JsonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.github.liliangshan.metric.http.interceptor.OkHttp3Interceptor;
+import com.github.liliangshan.metric.http.interceptor.RequestInterceptor;
+import com.github.liliangshan.metric.http.interceptor.ResponseInterceptor;
+import com.github.liliangshan.metric.json.JsonUtils;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,14 +28,44 @@ public abstract class AbstractRestClient implements RestClient {
 
     private final OkHttpClient okHttpClient;
     private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+    private final RestClientConfig config;
+    private final Set<RequestInterceptor> requestInterceptors = Sets.newLinkedHashSet();
+    private final Set<ResponseInterceptor> responseInterceptors = Sets.newLinkedHashSet();
 
-    protected AbstractRestClient() {
+    protected AbstractRestClient(RestClientConfig config) {
+        this.config = config;
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor())
-                .connectTimeout(3000, TimeUnit.SECONDS)
-                .readTimeout(3000, TimeUnit.SECONDS)
-                .writeTimeout(3000, TimeUnit.SECONDS)
+                .addInterceptor(new OkHttp3Interceptor(this))
+                .connectTimeout(config.getConnectTimeoutMs(), TimeUnit.MILLISECONDS)
+                .readTimeout(config.getReadTimeoutMs(), TimeUnit.MILLISECONDS)
+                .writeTimeout(config.getWriteTimeoutMs(), TimeUnit.MILLISECONDS)
                 .build();
+    }
+
+    @Override
+    public RestClientConfig getConfig() {
+        return config;
+    }
+
+    public void addRequestInterceptor(RequestInterceptor interceptor) {
+        if (interceptor != null) {
+            requestInterceptors.add(interceptor);
+        }
+    }
+
+    public Set<RequestInterceptor> getRequestInterceptors() {
+        return requestInterceptors;
+    }
+
+    public void addResponseInterceptor(ResponseInterceptor interceptor) {
+        if (interceptor != null) {
+            responseInterceptors.add(interceptor);
+        }
+    }
+
+    public Set<ResponseInterceptor> getResponseInterceptors() {
+        return responseInterceptors;
     }
 
     @Override
@@ -163,7 +199,7 @@ public abstract class AbstractRestClient implements RestClient {
     private Headers toOKHttp3Headers(HttpHeaders httpHeaders) {
         Map<String, String> params = httpHeaders.toMap();
         Headers headers;
-        okhttp3.Headers.Builder builder = new okhttp3.Headers.Builder();
+        Headers.Builder builder = new Headers.Builder();
         if (params != null && !params.isEmpty()) {
             Iterator<String> iterator = params.keySet().iterator();
             String key;

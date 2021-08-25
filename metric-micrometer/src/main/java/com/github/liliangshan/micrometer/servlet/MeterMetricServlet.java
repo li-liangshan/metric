@@ -26,6 +26,16 @@ public class MeterMetricServlet extends AbstractMetricServlet {
     }
 
     @Override
+    protected void updateMetricsBefore() {
+
+    }
+
+    @Override
+    protected void updateMetricsAfter() {
+
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
     }

@@ -28,7 +28,7 @@ public abstract class AbstractMetric implements Metric {
 
     @Override
     public final MetricId getId() {
-        return new MetricId(name, tags);
+        return new MetricId(name, tags.keySet());
     }
 
     @Override

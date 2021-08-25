@@ -49,11 +49,11 @@ public class PrometheusGauge extends AbstractPrometheusMetric implements MtGauge
 
     @Override
     public Callable<Double> getCallable() {
-        return this::value;
+        return this::updateAndGetValue;
     }
 
     @Override
-    public double value() {
+    public double updateAndGetValue() {
         gauge.labels(this.getLabelValues()).set(function.applyAsDouble(callable));
         return gauge.labels(this.getLabelValues()).get();
     }

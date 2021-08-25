@@ -50,7 +50,7 @@ public class InstrumentGauge extends AbstractInstrumentMetric implements MtGauge
     }
 
     @Override
-    public double value() {
+    public double updateAndGetValue() {
         return gauge.value();
     }
 

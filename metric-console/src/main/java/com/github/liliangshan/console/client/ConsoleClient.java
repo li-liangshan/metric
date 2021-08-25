@@ -4,6 +4,7 @@ import com.github.liliangshan.console.metric.ConsoleGauge;
 import com.github.liliangshan.console.metric.ConsoleTimer;
 import com.github.liliangshan.console.metric.ConsoleCounter;
 import com.github.liliangshan.console.registry.ConsoleRegistry;
+import com.github.liliangshan.metric.api.MtCollector;
 import com.github.liliangshan.metric.api.MtCounter;
 import com.github.liliangshan.metric.api.MtGauge;
 import com.github.liliangshan.metric.api.MtTimer;
@@ -51,4 +52,10 @@ public class ConsoleClient extends AbstractClient {
         ConsoleTimer timer = new ConsoleTimer(timerLimit, name, description, tags);
         return timer.register(registry);
     }
+
+    @Override
+    protected MtCollector getMtCollector(String name, String description, Map<String, String> tags, Callable<?> callable) {
+        return null;
+    }
+
 }
